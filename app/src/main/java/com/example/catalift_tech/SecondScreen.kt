@@ -37,6 +37,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.ui.text.TextStyle
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -65,7 +71,7 @@ fun SecondScreen(profession: String,company : String ) {
             .fillMaxSize()
             .verticalScroll(scrollState)
             .background(color = Color.White)
-            .padding(16.dp,top=38.dp, bottom = 20.dp)
+            .padding(start=16.dp,top=38.dp, bottom = 20.dp,end=16.dp),
     ) {
 
         // Progress Bar
@@ -98,22 +104,12 @@ fun SecondScreen(profession: String,company : String ) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Search Box
-        OutlinedTextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-            placeholder = { Text("Search") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
-//            colors =TextFieldDefaults.outlinedTextFieldColors(
-//                containerColor = Color(0xFFF2F2F2),
-//                focusedBorderColor = Color.Transparent,
-//                unfocusedBorderColor = Color.Transparent
-//            )
+
+        CustomSearchBox(
+            searchText = searchText,
+            onSearchChanged = { searchText = it }
         )
+
 
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -189,6 +185,54 @@ fun SecondScreen(profession: String,company : String ) {
                 Text("Back", color = Color(0xFF0A0A5F))
             }
             Spacer(modifier = Modifier.height(20.dp))
+        }
+    }
+}
+
+
+
+
+
+@Composable
+fun CustomSearchBox(searchText: String, onSearchChanged: (String) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .background(color = Color(0xFFF2F2F2), shape = RoundedCornerShape(20.dp))
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search Icon",
+                tint = Color.Gray
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            BasicTextField(
+                value = searchText,
+                onValueChange = onSearchChanged,
+                singleLine = true,
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                decorationBox = { innerTextField ->
+                    if (searchText.isEmpty()) {
+                        Text(
+                            text = "Search",
+                            color = Color.Gray,
+                            fontSize = 16.sp
+                        )
+                    }
+                    innerTextField()
+                }
+            )
         }
     }
 }
