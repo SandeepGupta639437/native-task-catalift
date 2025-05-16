@@ -1,6 +1,7 @@
 package com.example.catalift_tech
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 
 class Details : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         super.onCreate(savedInstanceState)
         val profession = intent.getStringExtra("profession") ?: return
         val company = intent.getStringExtra("company") ?: return
